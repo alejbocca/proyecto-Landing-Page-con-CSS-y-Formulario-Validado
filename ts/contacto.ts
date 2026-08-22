@@ -9,25 +9,27 @@
 
   type ContactField = keyof ContactForm;
 
-  function esEmailValido(valor: string): valor is string {
+  function esEmailValido(valor: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
   }
 
-  const validadoresPorCampo: Record<ContactField, (valor: string) => string> = {
-    nombre: function (valor) {
+  type ContactValidator = (valor: string) => string;
+
+  const validadoresPorCampo: Record<ContactField, ContactValidator> = {
+    nombre: function (valor): string {
       return valor.trim().length === 0 ? "El nombre es requerido" : "";
     },
-    email: function (valor) {
+    email: function (valor): string {
       return !esEmailValido(valor) ? "Email inválido" : "";
     },
-    mensaje: function (valor) {
+    mensaje: function (valor): string {
       return valor.trim().length < 10 ? "El mensaje es muy corto" : "";
     }
   };
 
   function validarFormulario(datos: ContactForm): string[] {
     const errores: string[] = [];
-    (Object.keys(validadoresPorCampo) as ContactField[]).forEach(function (campo) {
+    (Object.keys(validadoresPorCampo) as ContactField[]).forEach(function (campo): void {
       const mensaje = validadoresPorCampo[campo](datos[campo]);
       if (mensaje) errores.push(mensaje);
     });
@@ -72,20 +74,20 @@
     return !msg;
   }
 
-  form.querySelectorAll("input, textarea").forEach(function (el) {
+  form.querySelectorAll("input, textarea").forEach(function (el): void {
     if (!isValidatableField(el)) return;
     const field = el;
 
-    field.addEventListener("blur", function () {
+    field.addEventListener("blur", function (): void {
       validarCampo(field);
     });
 
-    field.addEventListener("input", function () {
+    field.addEventListener("input", function (): void {
       if (field.getAttribute("aria-invalid") === "true") validarCampo(field);
     });
   });
 
-  form.addEventListener("submit", function (e) {
+  form.addEventListener("submit", function (e): void {
     e.preventDefault();
     formStatus.textContent = "";
     formStatus.removeAttribute("role");
@@ -99,7 +101,7 @@
     const errores = validarFormulario(datos);
     mostrarFeedback(errores);
 
-    form.querySelectorAll("input, textarea").forEach(function (el) {
+    form.querySelectorAll("input, textarea").forEach(function (el): void {
       if (!isValidatableField(el)) return;
       validarCampo(el);
     });
@@ -113,7 +115,7 @@
     formStatus.setAttribute("role", "alert");
     formStatus.textContent = "¡Mensaje enviado! Nos pondremos en contacto contigo pronto.";
     form.reset();
-    form.querySelectorAll("input, textarea").forEach(function (el) {
+    form.querySelectorAll("input, textarea").forEach(function (el): void {
       el.removeAttribute("aria-invalid");
     });
   });

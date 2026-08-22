@@ -20,6 +20,7 @@
   <meta property="og:description" content="Completa el formulario de inscripción de Coding Bootcamps ESPOL y únete a nuestros bootcamps de desarrollo web, datos y business data analytics.">
   <meta property="og:locale" content="es_EC">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/css/intlTelInput.css">
 </head>
 <body>
   <a class="skip-link" href="#contenido-principal">Saltar al contenido principal</a>
@@ -79,24 +80,26 @@
   <main id="contenido-principal">
     <section class="page-header">
       <div class="container">
-        <h1>Inscríbete en tu bootcamp</h1>
+        <h1>Inscríbete en tu programa</h1>
         <p>Completa tus datos y un asesor de Coding Bootcamps ESPOL se pondrá en contacto contigo en menos de 24 horas para confirmar tu cupo.</p>
       </div>
     </section>
 
     <section aria-labelledby="inscripcion-heading">
       <div class="container">
+        <h2 class="visually-hidden" id="inscripcion-heading">Datos de inscripción</h2>
         <form class="contact-form" id="inscripcion-form" novalidate>
           <fieldset>
-            <legend id="inscripcion-heading">Datos de inscripción</legend>
+            <legend>Datos de inscripción</legend>
 
             <div class="form-group">
-              <label for="nombre">Nombre completo</label>
+              <label for="nombre" class="visually-hidden">Nombre completo</label>
               <input
                 type="text"
                 id="nombre"
                 name="nombre"
                 autocomplete="name"
+                placeholder="Nombre completo"
                 required
                 aria-required="true"
                 aria-describedby="nombre-error"
@@ -105,12 +108,13 @@
             </div>
 
             <div class="form-group">
-              <label for="email">Correo electrónico</label>
+              <label for="email" class="visually-hidden">Correo electrónico</label>
               <input
                 type="email"
                 id="email"
                 name="email"
                 autocomplete="email"
+                placeholder="Correo electrónico"
                 required
                 aria-required="true"
                 aria-describedby="email-error"
@@ -119,13 +123,12 @@
             </div>
 
             <div class="form-group">
-              <label for="whatsapp">WhatsApp</label>
+              <label for="whatsapp" class="visually-hidden">WhatsApp</label>
               <input
                 type="tel"
                 id="whatsapp"
                 name="whatsapp"
                 autocomplete="tel"
-                placeholder="+593 9XXXXXXXX"
                 required
                 aria-required="true"
                 aria-describedby="whatsapp-error"
@@ -134,7 +137,7 @@
             </div>
 
             <div class="form-group">
-              <label for="programa">Programa de interés</label>
+              <label for="programa" class="visually-hidden">Programa de interés</label>
               <select
                 id="programa"
                 name="programa"
@@ -142,21 +145,22 @@
                 aria-required="true"
                 aria-describedby="programa-error"
               >
-                <option value="" selected disabled>Selecciona un programa</option>
-                <option value="Full Stack Developer">Full Stack Developer</option>
+                <option value="" selected disabled>Selecciona un programa de interés</option>
+                <option value="Full Stack Developer">Full Stack Development</option>
                 <option value="Data Science">Data Science</option>
-                <option value="Business Data Analytics">Business Data Analytics</option>
+                <option value="Business Data Analytics">Data Analytics</option>
                 <option value="Aún no lo decido">Aún no lo decido</option>
               </select>
               <span class="field-error" id="programa-error" role="alert"></span>
             </div>
 
             <div class="form-group">
-              <label for="mensaje">Comentarios (opcional)</label>
+              <label for="mensaje" class="visually-hidden">Comentarios (opcional)</label>
               <textarea
                 id="mensaje"
                 name="mensaje"
                 rows="4"
+                placeholder="Comentarios (opcional)"
                 aria-describedby="mensaje-hint"
               ></textarea>
               <span class="field-hint" id="mensaje-hint">Cuéntanos tu disponibilidad de horario o cualquier duda que tengas.</span>
@@ -220,12 +224,12 @@
     data-open="false"
     hidden
   >
-    <div class="chat-header">
+    <header class="chat-header">
       <h2 id="chat-title">Asistente virtual</h2>
       <button class="chat-close" type="button" id="chat-close" aria-label="Cerrar chat">
         &#10005;
       </button>
-    </div>
+    </header>
     <div class="chat-body" id="chat-body" tabindex="-1">
       <p class="chat-message chat-message--bot" id="chat-desc">
         ¡Hola! Soy tu asistente de Coding Bootcamps ESPOL. Pregúntame sobre nuestros programas, fechas de inicio o el proceso de inscripción.
@@ -430,5 +434,15 @@
     })();
   </script>
   <script src="js/inscripcion.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/js/intlTelInputWithUtils.min.js"></script>
+  <script>
+    const whatsappInput = document.querySelector("#whatsapp");
+    if (whatsappInput) {
+      window.intlTelInput(whatsappInput, {
+        initialCountry: "ec",
+        separateDialCode: true,
+      });
+    }
+  </script>
 </body>
 </html>

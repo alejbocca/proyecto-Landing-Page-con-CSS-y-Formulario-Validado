@@ -4,7 +4,7 @@ function esHTMLElement(el: Element | null): el is HTMLElement {
 
   function resaltarNavActivo(): void {
     const rutaActual = window.location.pathname.split("/").pop();
-    document.querySelectorAll("nav a").forEach(function(link) {
+    document.querySelectorAll("nav a").forEach(function (link): void {
       if (!esHTMLElement(link)) return;
       if (link.getAttribute("href") === rutaActual) {
         link.classList.add("active");

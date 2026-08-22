@@ -35,12 +35,15 @@
                 return "Ingresa un correo electrónico válido.";
             return "";
         },
-        whatsapp: function (v) {
+        whatsapp: function (v, field) {
             if (!v.trim())
                 return "El número de WhatsApp es obligatorio.";
-            if (!/^[0-9+\s\-()]{8,20}$/.test(v))
-                return "Ingresa un número válido con código de país.";
-            return "";
+            const iti = field instanceof HTMLInputElement && window.intlTelInputGlobals
+                ? window.intlTelInputGlobals.getInstance(field)
+                : undefined;
+            if (iti)
+                return iti.isValidNumber() ? "" : "Ingresa un número de WhatsApp válido para el país seleccionado.";
+            return /^[0-9+\s\-()]{8,20}$/.test(v) ? "" : "Ingresa un número válido con código de país.";
         },
         programa: function (v) {
             if (!v)
@@ -58,7 +61,7 @@
         if (!isFieldName(field.name))
             return true;
         const errorEl = document.getElementById(field.id + "-error");
-        const msg = validators[field.name](field.value);
+        const msg = validators[field.name](field.value, field);
         if (errorEl)
             errorEl.textContent = msg;
         field.setAttribute("aria-invalid", msg ? "true" : "false");
