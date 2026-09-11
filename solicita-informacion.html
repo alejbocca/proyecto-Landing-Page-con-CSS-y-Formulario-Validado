@@ -19,14 +19,14 @@
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Completa el formulario de inscripción de Coding Bootcamps ESPOL y únete a nuestros bootcamps de desarrollo web, datos y business data analytics.">
-  <title>Inscripción | Coding Bootcamps ESPOL</title>
+  <meta name="description" content="Solicita información sobre los bootcamps de Coding Bootcamps ESPOL y un asesor te contactará para resolver tus dudas sobre desarrollo web, datos y business data analytics.">
+  <title>Solicita información | Coding Bootcamps ESPOL</title>
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="canonical" href="https://codingbootcamps-espol.example.com/inscripcion.html">
+  <link rel="canonical" href="https://codingbootcamps-espol.example.com/solicita-informacion.html">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://codingbootcamps-espol.example.com/inscripcion.html">
-  <meta property="og:title" content="Inscripción | Coding Bootcamps ESPOL">
-  <meta property="og:description" content="Completa el formulario de inscripción de Coding Bootcamps ESPOL y únete a nuestros bootcamps de desarrollo web, datos y business data analytics.">
+  <meta property="og:url" content="https://codingbootcamps-espol.example.com/solicita-informacion.html">
+  <meta property="og:title" content="Solicita información | Coding Bootcamps ESPOL">
+  <meta property="og:description" content="Solicita información sobre los bootcamps de Coding Bootcamps ESPOL y un asesor te contactará para resolver tus dudas sobre desarrollo web, datos y business data analytics.">
   <meta property="og:locale" content="es_EC">
   <link rel="stylesheet" href="css/styles.css">
   <!-- Paste this right before your closing </head> tag -->
@@ -89,7 +89,7 @@
             </li>
           </ul>
 
-          <a class="btn-ingresar" href="inscripcion.html" title="Ir a formulario de inscripción">Inscribirme</a>
+          <a class="btn-ingresar" href="solicita-informacion.html" title="Ir a solicitar información">Solicitar información</a>
         </nav>
       </div>
     </div>
@@ -100,24 +100,26 @@
   <main id="contenido-principal">
     <section class="page-header">
       <div class="container">
-        <h1>Solicita más información</h1>
-        <p>Completa tus datos y un asesor de Coding Bootcamps ESPOL se pondrá en contacto contigo en menos de 24 horas para brindarte toda la información que necesitas.</p>
+        <h1>Solicita información sobre tu programa</h1>
+        <p>Completa tus datos y un asesor de Coding Bootcamps ESPOL se pondrá en contacto contigo en menos de 24 horas para resolver tus dudas y ayudarte a elegir tu programa.</p>
       </div>
     </section>
 
-    <section aria-labelledby="inscripcion-heading">
+    <section aria-labelledby="solicitud-heading">
       <div class="container">
-        <h2 class="visually-hidden" id="inscripcion-heading">Datos de inscripción</h2>
-        <iframe
-          data-tally-src="https://tally.so/embed/KYEr4K?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-          loading="lazy"
-          width="100%"
-          height="700"
-          frameborder="0"
-          marginheight="0"
-          marginwidth="0"
-          title="Datos de inscripción"
-        ></iframe>
+        <h2 class="visually-hidden" id="solicitud-heading">Datos de la solicitud</h2>
+        <div class="solicitud-form">
+          <iframe
+            data-tally-src="https://tally.so/embed/KYEr4K?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+            loading="lazy"
+            width="100%"
+            height="700"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            title="Datos de la solicitud"
+          ></iframe>
+        </div>
       </div>
     </section>
   </main>
@@ -133,7 +135,7 @@
         <ul class="footer-nav-list">
           <li><a href="index.html">Inicio</a></li>
           <li><a href="programas.html">Programas</a></li>
-          <li><a href="inscripcion.html" aria-current="page">Inscripción</a></li>
+          <li><a href="solicita-informacion.html" aria-current="page">Información</a></li>
         </ul>
       </nav>
 
@@ -401,8 +403,8 @@
         if (!data || typeof data.event !== "string") return;
 
         if (data.event === "Tally.FormLoaded") {
-          gtag("event", "form_start", { form_id: "inscripcion" });
-          mixpanel.track("Formulario iniciado", { form_id: "inscripcion" });
+          gtag("event", "form_start", { form_id: "solicita_informacion" });
+          mixpanel.track("Formulario iniciado", { form_id: "solicita_informacion" });
           return;
         }
 
@@ -414,17 +416,18 @@
           var email = getAnswer(fields, "Correo electrónico");
 
           gtag("event", "generate_lead", {
-            form_id: "inscripcion",
+            form_id: "solicita_informacion",
             programa: programa,
             para_quien: paraQuien
           });
 
           if (email) mixpanel.identify(email);
-          mixpanel.track("Inscripción enviada", {
+          mixpanel.track("Solicitud de información enviada", {
             programa: programa,
             para_quien: paraQuien,
             situacion_actual: situacion
           });
+          mixpanel.track("form_submitted", { form_name: "solicita_informacion" });
 
           window.location.href = "gracias.html" + (programa ? "?programa=" + encodeURIComponent(programa) : "");
         }

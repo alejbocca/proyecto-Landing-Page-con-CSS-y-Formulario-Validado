@@ -10,7 +10,8 @@ const dist = join(root, "dist");
 const files = [
   "index.html",
   "programas.html",
-  "inscripcion.html",
+  "solicita-informacion.html",
+  "gracias.html",
   "404.html",
   "playground.html",
   "favicon.png",

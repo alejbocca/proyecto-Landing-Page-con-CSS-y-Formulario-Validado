@@ -19,15 +19,10 @@
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Completa el formulario de inscripción de Coding Bootcamps ESPOL y únete a nuestros bootcamps de desarrollo web, datos y business data analytics.">
-  <title>Inscripción | Coding Bootcamps ESPOL</title>
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Tu solicitud de información a Coding Bootcamps ESPOL fue recibida. Un asesor se pondrá en contacto contigo en menos de 24 horas.">
+  <title>Solicitud recibida | Coding Bootcamps ESPOL</title>
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="canonical" href="https://codingbootcamps-espol.example.com/inscripcion.html">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://codingbootcamps-espol.example.com/inscripcion.html">
-  <meta property="og:title" content="Inscripción | Coding Bootcamps ESPOL">
-  <meta property="og:description" content="Completa el formulario de inscripción de Coding Bootcamps ESPOL y únete a nuestros bootcamps de desarrollo web, datos y business data analytics.">
-  <meta property="og:locale" content="es_EC">
   <link rel="stylesheet" href="css/styles.css">
   <!-- Paste this right before your closing </head> tag -->
 <script type="text/javascript">
@@ -89,7 +84,7 @@
             </li>
           </ul>
 
-          <a class="btn-ingresar" href="inscripcion.html" title="Ir a formulario de inscripción">Inscribirme</a>
+          <a class="btn-ingresar" href="solicita-informacion.html" title="Ir a solicitar información">Solicitar información</a>
         </nav>
       </div>
     </div>
@@ -100,24 +95,24 @@
   <main id="contenido-principal">
     <section class="page-header">
       <div class="container">
-        <h1>Solicita más información</h1>
-        <p>Completa tus datos y un asesor de Coding Bootcamps ESPOL se pondrá en contacto contigo en menos de 24 horas para brindarte toda la información que necesitas.</p>
+        <span class="section-eyebrow">Solicitud recibida</span>
+        <h1>¡Tu solicitud fue recibida!</h1>
+        <p id="gracias-programa-texto">En breve un asesor de Coding Bootcamps ESPOL se pondrá en contacto contigo para resolver tus dudas y ayudarte a elegir tu programa.</p>
       </div>
     </section>
 
-    <section aria-labelledby="inscripcion-heading">
+    <section class="programs-cta" aria-labelledby="gracias-pasos-heading">
       <div class="container">
-        <h2 class="visually-hidden" id="inscripcion-heading">Datos de inscripción</h2>
-        <iframe
-          data-tally-src="https://tally.so/embed/KYEr4K?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-          loading="lazy"
-          width="100%"
-          height="700"
-          frameborder="0"
-          marginheight="0"
-          marginwidth="0"
-          title="Datos de inscripción"
-        ></iframe>
+        <h2 class="section-title" id="gracias-pasos-heading">¿Qué sigue?</h2>
+        <ol>
+          <li>Revisamos tu solicitud.</li>
+          <li>Un asesor te contacta por WhatsApp o correo en menos de 24 horas.</li>
+          <li>Te compartimos toda la información y los siguientes pasos para inscribirte.</li>
+        </ol>
+        <div class="error-actions">
+          <a class="btn btn-primary" id="whatsapp-directo" href="https://wa.me/593XXXXXXXXX" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
+          <a class="btn btn-secondary" href="programas.html">Ver otros programas</a>
+        </div>
       </div>
     </section>
   </main>
@@ -133,7 +128,7 @@
         <ul class="footer-nav-list">
           <li><a href="index.html">Inicio</a></li>
           <li><a href="programas.html">Programas</a></li>
-          <li><a href="inscripcion.html" aria-current="page">Inscripción</a></li>
+          <li><a href="solicita-informacion.html">Información</a></li>
         </ul>
       </nav>
 
@@ -282,6 +277,17 @@
         syncThemeUI(next);
       });
 
+      /* ── Mixpanel: WhatsApp click ── */
+      const whatsappLink = document.getElementById("whatsapp-directo");
+      if (whatsappLink) {
+        whatsappLink.addEventListener("click", function () {
+          if (window.mixpanel && typeof mixpanel.track === "function") {
+            const programa = new URLSearchParams(window.location.search).get("programa");
+            mixpanel.track("whatsapp_click", { programa: programa });
+          }
+        });
+      }
+
       /* ── Chat widget ── */
       const chatFab = document.getElementById("chat-fab");
       const chatWidget = document.getElementById("chat-widget");
@@ -378,58 +384,6 @@
       });
     })();
   </script>
-  <script src="https://tally.so/widgets/embed.js"></script>
-  <script>
-    (function () {
-      "use strict";
-
-      function getAnswer(fields, title) {
-        var field = fields.find(function (f) { return f.title === title; });
-        if (!field || !field.answer) return undefined;
-        return field.answer.value !== undefined ? field.answer.value : field.answer.raw;
-      }
-
-      window.addEventListener("message", function (event) {
-        if (typeof event.data !== "string") return;
-
-        var data;
-        try {
-          data = JSON.parse(event.data);
-        } catch (err) {
-          return;
-        }
-        if (!data || typeof data.event !== "string") return;
-
-        if (data.event === "Tally.FormLoaded") {
-          gtag("event", "form_start", { form_id: "inscripcion" });
-          mixpanel.track("Formulario iniciado", { form_id: "inscripcion" });
-          return;
-        }
-
-        if (data.event === "Tally.FormSubmitted") {
-          var fields = (data.payload && data.payload.fields) || [];
-          var programa = getAnswer(fields, "Programa de interés");
-          var paraQuien = getAnswer(fields, "¿Para quién es esta inscripción?");
-          var situacion = getAnswer(fields, "Situación actual");
-          var email = getAnswer(fields, "Correo electrónico");
-
-          gtag("event", "generate_lead", {
-            form_id: "inscripcion",
-            programa: programa,
-            para_quien: paraQuien
-          });
-
-          if (email) mixpanel.identify(email);
-          mixpanel.track("Inscripción enviada", {
-            programa: programa,
-            para_quien: paraQuien,
-            situacion_actual: situacion
-          });
-
-          window.location.href = "gracias.html" + (programa ? "?programa=" + encodeURIComponent(programa) : "");
-        }
-      });
-    })();
-  </script>
+  <script src="js/gracias.js" defer></script>
 </body>
 </html>

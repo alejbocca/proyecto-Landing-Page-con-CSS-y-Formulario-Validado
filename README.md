@@ -6,27 +6,28 @@ Rediseño de una página web institucional para la promoción, consulta e inscri
 
 - Página de inicio con presentación institucional y oferta académica.
 - Listado y detalle de programas de formación.
-- Formulario de inscripción con validación de campos.
+- Formulario para solicitar información (embebido vía Tally), con página de confirmación.
 - Página de error 404 personalizada.
 
 ## Estructura del proyecto
 
 ```
 proyecto/
-├── index.html          # Página principal
-├── programas.html       # Oferta académica
-├── inscripcion.html     # Formulario de inscripción
-├── 404.html              # Página de error
+├── index.html                    # Página principal
+├── programas.html                 # Oferta académica
+├── solicita-informacion.html      # Formulario para solicitar información (Tally embebido)
+├── gracias.html                    # Confirmación tras enviar la solicitud
+├── 404.html                        # Página de error
 ├── css/
-│   └── styles.css        # Estilos del sitio
-├── js/                    # Scripts compilados (JavaScript)
+│   └── styles.css                  # Estilos del sitio
+├── js/                              # Scripts compilados (JavaScript)
 │   ├── animaciones.js
 │   ├── contacto.js
-│   └── inscripcion.js
-├── ts/                    # Código fuente en TypeScript
+│   └── gracias.js
+├── ts/                              # Código fuente en TypeScript
 │   ├── animaciones.ts
 │   ├── contacto.ts
-│   └── inscripcion.ts
+│   └── gracias.ts
 ├── favicon.png
 ├── robots.txt
 └── sitemap.xml
