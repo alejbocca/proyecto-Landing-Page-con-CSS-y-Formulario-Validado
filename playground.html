@@ -473,14 +473,21 @@
         <h2 id="toasts-heading">Toasts</h2>
         <div class="playground-grid">
           <div class="playground-demo">
-            <div class="c-toast-container" aria-live="polite" aria-atomic="false">
+            <div class="playground-demo-row">
+              <button class="c-btn c-btn--primary" type="button" id="btn-toast-guardar">Guardar cambios</button>
+              <button class="c-btn c-btn--destructive" type="button" id="btn-toast-eliminar">Eliminar recurso</button>
+            </div>
+
+            <div class="c-toast-container" id="toast-container" aria-live="polite" aria-atomic="false">
               <div class="c-toast c-toast--success">
-                <span aria-hidden="true">&#10003;</span>
-                <p>Cambios guardados correctamente.</p>
+                <span class="c-toast-icon" aria-hidden="true">&#10003;</span>
+                <p class="c-toast-message">Cambios guardados correctamente.</p>
+                <button class="c-toast-close" type="button" aria-label="Cerrar notificación">&#10005;</button>
               </div>
               <div class="c-toast c-toast--error">
-                <span aria-hidden="true">&#10005;</span>
-                <p>Ocurrió un error al procesar la solicitud.</p>
+                <span class="c-toast-icon" aria-hidden="true">&#10005;</span>
+                <p class="c-toast-message">Ocurrió un error al procesar la solicitud.</p>
+                <button class="c-toast-close" type="button" aria-label="Cerrar notificación">&#10005;</button>
               </div>
             </div>
           </div>
@@ -489,11 +496,11 @@
             <h3>Teclado y foco</h3>
             <dl>
               <dt>Interacción</dt>
-              <dd>Ninguna: no son foco-interactivos, no reciben foco ni tienen controles.</dd>
+              <dd>El toast en sí no es foco-interactivo, pero su botón de cierre sí: se alcanza con Tab y se activa con Enter o Espacio, igual que cualquier botón.</dd>
               <dt>Anuncio</dt>
               <dd>El contenedor con aria-live="polite" los anuncia a lectores de pantalla sin robar el foco de lo que el usuario esté haciendo.</dd>
               <dt>Ciclo de vida</dt>
-              <dd>Cada toast se retira solo tras unos segundos; el contenedor nunca conserva más de 3 visibles a la vez.</dd>
+              <dd>Cada toast se retira solo tras unos segundos, o antes si se cierra manualmente; el contenedor nunca conserva más de 3 visibles a la vez.</dd>
             </dl>
           </div>
         </div>

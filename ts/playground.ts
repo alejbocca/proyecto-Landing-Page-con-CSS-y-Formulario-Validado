@@ -136,19 +136,62 @@
   /* ── Toasts ── */
   const TOAST_MAX_VISIBLE = 3;
   const TOAST_DURATION_MS = 5000;
+  const TOAST_EXIT_MS = 180;
+
+  type VarianteToast = "success" | "error";
+
+  function descartarToast(toast: HTMLElement): void {
+    if (toast.classList.contains("c-toast--leaving")) return;
+    toast.classList.add("c-toast--leaving");
+    window.setTimeout(function (): void {
+      toast.remove();
+    }, TOAST_EXIT_MS);
+  }
 
   function limitarToastsVisibles(contenedor: HTMLElement): void {
-    const toasts = Array.from(contenedor.querySelectorAll<HTMLElement>(".c-toast"));
+    const toasts = Array.from(contenedor.querySelectorAll<HTMLElement>(".c-toast")).filter(
+      function (toast): boolean {
+        return !toast.classList.contains("c-toast--leaving");
+      }
+    );
     const exceso = toasts.length - TOAST_MAX_VISIBLE;
     for (let i = 0; i < exceso; i++) {
-      toasts[i].remove();
+      descartarToast(toasts[i]);
     }
   }
 
   function programarAutoDescarte(toast: HTMLElement): void {
     window.setTimeout(function (): void {
-      toast.remove();
+      descartarToast(toast);
     }, TOAST_DURATION_MS);
+  }
+
+  function wireCierreToast(toast: HTMLElement): void {
+    const btnCerrar = toast.querySelector<HTMLElement>(".c-toast-close");
+    if (!(btnCerrar instanceof HTMLButtonElement)) return;
+
+    btnCerrar.addEventListener("click", function (): void {
+      descartarToast(toast);
+    });
+  }
+
+  function crearToast(contenedor: HTMLElement, variante: VarianteToast, mensaje: string): void {
+    const icono = variante === "success" ? "&#10003;" : "&#10005;";
+
+    const toast = document.createElement("div");
+    toast.className = "c-toast c-toast--" + variante;
+    toast.innerHTML =
+      '<span class="c-toast-icon" aria-hidden="true">' + icono + "</span>" +
+      '<p class="c-toast-message"></p>' +
+      '<button class="c-toast-close" type="button" aria-label="Cerrar notificación">&#10005;</button>';
+
+    const mensajeEl = toast.querySelector<HTMLElement>(".c-toast-message");
+    if (mensajeEl) mensajeEl.textContent = mensaje;
+
+    contenedor.appendChild(toast);
+    wireCierreToast(toast);
+    programarAutoDescarte(toast);
+    limitarToastsVisibles(contenedor);
   }
 
   function inicializarToasts(): void {
@@ -156,7 +199,28 @@
     if (!contenedor) return;
 
     limitarToastsVisibles(contenedor);
-    contenedor.querySelectorAll<HTMLElement>(".c-toast").forEach(programarAutoDescarte);
+    contenedor.querySelectorAll<HTMLElement>(".c-toast").forEach(function (toast): void {
+      wireCierreToast(toast);
+      programarAutoDescarte(toast);
+    });
+  }
+
+  function inicializarDisparadoresToasts(): void {
+    const contenedor = document.getElementById("toast-container");
+    const btnGuardar = document.getElementById("btn-toast-guardar");
+    const btnEliminar = document.getElementById("btn-toast-eliminar");
+
+    if (!(contenedor instanceof HTMLElement)) return;
+    if (!(btnGuardar instanceof HTMLButtonElement)) return;
+    if (!(btnEliminar instanceof HTMLButtonElement)) return;
+
+    btnGuardar.addEventListener("click", function (): void {
+      crearToast(contenedor, "success", "Cambios guardados correctamente.");
+    });
+
+    btnEliminar.addEventListener("click", function (): void {
+      crearToast(contenedor, "error", "No se pudo eliminar el recurso. Intenta nuevamente.");
+    });
   }
 
   inicializarThemeToggle();
@@ -164,4 +228,5 @@
   inicializarMenu("menu-toggle-texto", "menu-lista-texto");
   inicializarMenu("menu-toggle-icono", "menu-lista-icono");
   inicializarToasts();
+  inicializarDisparadoresToasts();
 })();
